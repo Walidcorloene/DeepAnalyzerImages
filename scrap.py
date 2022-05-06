@@ -4,9 +4,12 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from parsel import Selector
 import requests
-import os
-import csv
+import re
+import urllib.request
+from selenium import webdriver
 import time
+import os
+from dotenv import load_dotenv
 
 # defining new variable passing two parameters
 
@@ -14,11 +17,12 @@ import time
 
 # writerow() method to the write to the file object
 # writer.writerow(['Name', 'Job Title', 'Company', 'College', 'Location', 'URL'])
-
 # specifies the path to the chromedriver.exe
-driver = webdriver.Chrome(
-    '/Users/WalidCorleone/selenium/webdriver/chromedriver/chromedriver')
+driver = webdriver.Chrome(os.getenv('PATH_WEBDRIVER'))
+# Load .env file
+load_dotenv(verbose=True)
 
+driver.maximize_window()
 # driver.get method() will navigate to a page given by the URL address
 driver.get('https://www.linkedin.com')
 
@@ -27,7 +31,7 @@ username = driver.find_element_by_id('session_key')
 
 
 # send_keys() to simulate key strokes
-username.send_keys('khirdine.walid@gmail.com')
+username.send_keys(os.getenv("LINKEDIN_USERNAME"))
 
 # sleep for 0.5 seconds
 time.sleep(0.5)
@@ -36,7 +40,7 @@ time.sleep(0.5)
 password = driver.find_element_by_id('session_password')
 
 # send_keys() to simulate key strokes
-password.send_keys('LINKDIN2lkref6w@')
+password.send_keys(os.getenv("LINKEDIN_PASSWORD"))
 
 time.sleep(0.5)
 
@@ -48,91 +52,38 @@ sign_in_button.click()
 
 time.sleep(0.5)
 
-# # locate search form by_name
-# search_query = driver.find_element(By.CLASS_NAME,'search-global-typeahead__input.always-show-placeholder')
-
-# print(search_query)
-# # send_keys() to simulate the search text key strokes
-# search_query.send_keys('"dev"')
-
-# # .send_keys() to simulate the return key
-# search_query.send_keys(Keys.RETURN)
-
-
-driver.get('https:www.google.com')
+# get source code of my networks profiles and scroll 30 times
+driver.get('https://www.linkedin.com/mynetwork/')
 time.sleep(3)
-
-accept = driver.find_element(By.ID, 'L2AGLb')
-accept.click()
-
+for _ in range(50):
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(1.5)
+    sel = Selector(text=driver.page_source)
+# get Href of each linkeidn profile in source code
+linkedd = [a.attrib['href'] for a in sel.css('a')]
 time.sleep(1)
 
-search_query = driver.find_element(By.NAME, 'q')
-search_query.send_keys('site:linkedin.com/in/ OR site:linkedin.com/pub/ -intitle:profiles -inurl:"/dir"')
-time.sleep(0.5)
-
-search_query.send_keys(Keys.RETURN)
-time.sleep(3)
-
-
-# linkedin_urls = driver.find_elements(By.CLASS_NAME, 'iUh30.qLRx3b.tjvcx')
-# linkedin_urls = [url.text for url in linkedin_urls]
-# time.sleep(1)
-
-# nextt = driver.find_element(By.ID, 'pnnext')
-# nextt.click()
-# time.sleep(1)
-
-# linkedin_urls2 = driver.find_elements(By.CLASS_NAME, 'iUh30.qLRx3b.tjvcx')
-# linkedin_urls2 = [url.text for url in linkedin_urls2]
-# linkedin_urls.extend(linkedin_urls2)
-
-# for i in linkedin_urls:
-#     print(i)
-
-# time.sleep(1)
-
 linkedin = []
-for _ in range(10):
-    linkedin_urls = driver.find_elements(By.CLASS_NAME, 'yuRUbf')
-    for url in linkedin_urls:
-        a = url.find_element(By.TAG_NAME, 'a').get_attribute('href')
-        linkedin.append(a)
-    time.sleep(0.5)
-    nextt = driver.find_element(By.ID, 'pnnext')
-    nextt.click()
+linke = 'https://www.linkedin.com'
+for url in linkedd:
+    x = re.findall("\/in\/[A-z0-9_-]+\/?", url)
+    linkedin.append(x)
+    linkedin_urls = [linke+item for x in linkedin for item in x]
 
-print(linkedin)
-print(len(linkedin))
-print(linkedin[0])
-time.sleep(0.5)
-# For loop to iterate over each URL in the list
 
-for linkedin_url in linkedin:
-    if len(linkedin_url) != 0:
-       # get the profile URL
+for linkedin_url in linkedin_urls:
+    if len(linkedin_url) > 35:
+        # get the profile URL
         driver.get(linkedin_url)
-
-   # add a 5 second pause loading each URL
-        time.sleep(5)
-
-   # assigning the source code for the webpage to variable sel
-        sel = Selector(text=driver.page_source)
-time.sleep(0.5)
-all_iamges = sel.xpath('//div[@class="pv-top-card--photo"]//img[@src]').extract_first()
-
-for img in all_iamges:
-    url = img.get_attribute('src')
-    filename = url.split("/")[-1]
-    print('url:', url)
-    print('filename:', filename)
-    print('-----')
-
-    full_path = os.path.join('/Users/WalidCorleone/selenium/', filename)
-
-    response = requests.get(url)
-    with open(full_path, "wb") as fh:
-        fh.write(response.content)
-# terminates the application
-driver.quit()
-# driver.quit()
+        picture_url = driver.find_elements(
+            By.CLASS_NAME, 'pv-top-card__non-self-photo-wrapper.ml0')
+        for url in picture_url:
+            a = url.find_element(By.TAG_NAME, 'img').get_attribute('src')
+            # # download the image
+            try:
+                i += 1
+                urllib.request.urlretrieve(a, "/images/AdNonAd"+str(i)+".png")
+                # add a 5 second pause loading each URL
+                time.sleep(2)
+            except AssertionError:
+                print("No picture to download")
