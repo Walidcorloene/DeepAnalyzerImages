@@ -53,6 +53,7 @@ conda activate deepsimageanalyser
 ```
 pip install -r requirements.txt
 ```
+```
 
 4. Install Webdriver in your computer to be able to launch it, this is the link:
 ```
