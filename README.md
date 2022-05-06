@@ -27,12 +27,11 @@
 
 ## Ressources
 
-* Project objectives : 
-Gérer le stress du consultant en cas de non signature de contrat client
+* Manage the stress of the consultant in case of not signing a client contract
 
-Pouvoir disposer de paramètres en amont de l’entretien permettant de  déterminer s’il y a ou non une possibilité de le faire adhérer (définir un repère avant l’entretien)
+* Be able to have parameters prior to the interview to determine whether or not there is a possibility of getting it to adhere (define a benchmark before the interview)
 
-Définir la meilleure stratégie lors de l’entretien avec le client pour le faire adhérer et créer un outil à cette fin, opérationnel et de type vision I.A. (cf. Microservices et systèmes DevOps)
+* Define the best strategy during the meeting with the customer to get them on board and create a tool for this purpose, operational and of the AI ​​vision type (cf. Microservices and DevOps systems)
 
 ## Dependencies
 
@@ -55,12 +54,12 @@ conda activate deepsimageanalyser
 pip install -r requirements.txt
 ```
 
-4. Install Webdriver in your computer to be able to launch it:
+4. Install Webdriver in your computer to be able to launch it, this is the link:
 ```
 https://chromedriver.chromium.org/downloads
 ```
 
-After download it to your repository of project add the path of webdriver.exe and linkedin profile to the .env file
+After download it to your repository of project add the path of webdriver.exe into scrap.py and linkedin profile to the .env file
 
 5. Launch the scraper to get profiles images from linkedin :
 ```
