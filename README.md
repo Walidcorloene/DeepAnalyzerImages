@@ -9,7 +9,7 @@
 </h1>
 
 
-### :crew_technologist: About Us :
+### 🧑‍💻: About Us :
 - :telescope: We are Studying as a Data & AI and contributing for building a analyzer images of profile linkedin.
 
 
