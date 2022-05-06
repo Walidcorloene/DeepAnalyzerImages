@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 # writerow() method to the write to the file object
 # writer.writerow(['Name', 'Job Title', 'Company', 'College', 'Location', 'URL'])
 # specifies the path to the chromedriver.exe
-driver = webdriver.Chrome(os.getenv('PATH_WEBDRIVER'))
+driver = webdriver.Chrome('./chromedriver.exe')
 # Load .env file
 load_dotenv(verbose=True)
 
@@ -55,7 +55,7 @@ time.sleep(0.5)
 # get source code of my networks profiles and scroll 30 times
 driver.get('https://www.linkedin.com/mynetwork/')
 time.sleep(3)
-for _ in range(50):
+for _ in range(1):
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(1.5)
     sel = Selector(text=driver.page_source)
@@ -70,7 +70,7 @@ for url in linkedd:
     linkedin.append(x)
     linkedin_urls = [linke+item for x in linkedin for item in x]
 
-
+i=0
 for linkedin_url in linkedin_urls:
     if len(linkedin_url) > 35:
         # get the profile URL
@@ -82,7 +82,7 @@ for linkedin_url in linkedin_urls:
             # # download the image
             try:
                 i += 1
-                urllib.request.urlretrieve(a, "/images/AdNonAd"+str(i)+".png")
+                urllib.request.urlretrieve(a, "images/AdNonAd"+str(i)+".png")
                 # add a 5 second pause loading each URL
                 time.sleep(2)
             except AssertionError:
