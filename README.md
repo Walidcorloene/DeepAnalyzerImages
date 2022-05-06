@@ -45,11 +45,14 @@ pip install -r requirements.txt
 https://chromedriver.chromium.org/downloads
 ```
 
-5. Launch the scraper to get prifles images from linkedin :
+After download it to your repository of project add the path of webdriver.exe and linkedin profile to the .env file
 
+5. Launch the scraper to get profiles images from linkedin :
+```
+python scrap.py
+```
 
 ## Project structure
-
 
     
 -- images : this folder will contains all images
@@ -61,7 +64,6 @@ https://chromedriver.chromium.org/downloads
 ------- .env : contains variable PATH_WEBDRIVER, LINKEDIN_USERNAME, LINKEDIN_PASSWORD
 
 -- requirements.txt : this files will list the dependencies of the project
--- 
     
 ----- 
 
