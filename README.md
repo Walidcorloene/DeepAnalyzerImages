@@ -25,7 +25,7 @@ Définir la meilleure stratégie lors de l’entretien avec le client pour le fa
 
 ## Setup
 
-1. Create a new conda env named md4-api (if you haven't already) for the project in the Conda application or in the terminal:
+1. Create a new conda env named deepsimageanalyser (if you haven't already) for the project in the Conda application or in the terminal:
 ```
 conda create --name deepsimageanalyser python=3.7 
 ```
