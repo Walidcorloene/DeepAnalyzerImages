@@ -53,16 +53,16 @@ conda activate deepsimageanalyser
 ```
 pip install -r requirements.txt
 ```
-```
 
 4. Install Webdriver in your computer to be able to launch it, this is the link:
 ```
 https://chromedriver.chromium.org/downloads
 ```
 
-After download it to your repository of project add the path of webdriver.exe into scrap.py and linkedin profile to the .env file
+After download it to your repository of project add the path of webdriver.exe into scraper.py and linkedin profile to the .env file
 
 5. Launch the scraper to get profiles images from linkedin :
+
 ```
 python scrap.py
 ```
