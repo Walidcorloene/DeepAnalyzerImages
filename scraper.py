@@ -72,7 +72,7 @@ def LinkedinHref(sel=networkSource('https://www.linkedin.com/mynetwork/')):
 
 
 def downloadProfile():
-    #imagename = os.listdir(os.getenv("LOCAL_IMAGES"))
+    imagename = os.listdir(os.getenv("LOCAL_IMAGES"))
     for linkedin_url in LinkedinHref():
         # get the profile URL
         driver.get(linkedin_url)
@@ -86,9 +86,10 @@ def downloadProfile():
                 "text-heading-xlarge.inline.t-24.v-align-middle.break-words").text
             # # download the image
             try:
-                urllib.request.urlretrieve(a, "images/"+text+".png")
-                # add a 5 second pause loading each URL
-                time.sleep(2)
+                 if text not in imagename:
+                    urllib.request.urlretrieve(a, "images/"+text+".png")
+                    # add a 5 second pause loading each URL
+                    time.sleep(2)
             except AssertionError:
                 print("No picture to download")
 
