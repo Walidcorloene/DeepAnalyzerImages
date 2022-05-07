@@ -82,7 +82,7 @@ def downloadProfile():
             # get the source of the images profile
             a = url.find_element(By.TAG_NAME, 'img').get_attribute('src')
             # get the source of the name profile
-            text = driver.find_element_by_class_name(
+            text = driver.find_element(By.CLASS_NAME,
                 "text-heading-xlarge.inline.t-24.v-align-middle.break-words").text
             # # download the image
             try:
