@@ -1,23 +1,24 @@
 # import web driver
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from parsel import Selector
-import requests
-import re
-import urllib.request
+from urllib.error import URLError
 from selenium import webdriver
-import time
-import os
 from dotenv import load_dotenv
+from parsel import Selector
+import urllib.request
+import time
+import re
+import os
 
-
-# specifies the path to the chromedriver.exe
-driver = webdriver.Chrome("./chromedriver.exe")
 # Load .env file
 load_dotenv(verbose=True)
 
+# specifies the path to the chromedriver.exe
+driver = webdriver.Chrome(os.getenv("WEBDRIVER_PATH"))
+
+# Maximaze page size
 driver.maximize_window()
+
 # driver.get method() will navigate to a page given by the URL address
 driver.get('https://www.linkedin.com')
 
@@ -41,7 +42,7 @@ time.sleep(0.5)
 # locate submit button by_xpath
 sign_in_button = driver.find_element(By.XPATH, '//*[@type="submit"]')
 
-# .click() to mimic button click
+# signin button click
 sign_in_button.click()
 
 time.sleep(0.5)
@@ -51,10 +52,16 @@ time.sleep(0.5)
 def networkSource(link):
     driver.get(link)
     time.sleep(3)
+    # To close messaging list
+    MessagingList= driver.fin_element(By.ID,'ember77')
+    MessagingList.click()
+    # Scroll 50 times to get 600 profiles
     for _ in range(50):
+        # To scoll execute the scroll
         driver.execute_script(
             "window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(1.5)
+        # appending the source code of the page 
         sel = Selector(text=driver.page_source)
     return sel
 
@@ -63,8 +70,10 @@ def networkSource(link):
 def LinkedinHref(sel=networkSource('https://www.linkedin.com/mynetwork/')):
     linkedin = []
     path = 'https://www.linkedin.com'
+    # to get all the link in the script a
     linkedin_href = [a.attrib['href'] for a in sel.css('a')]
     for link in linkedin_href:
+        # getting the true linkeidn profile
         truelink = re.findall("(\/in\/[A-z0-9_%-]{5,})+\/?", link)
         linkedin.append(truelink)
         linkedin_urls = set([path+item for x in linkedin for item in x])
@@ -72,10 +81,12 @@ def LinkedinHref(sel=networkSource('https://www.linkedin.com/mynetwork/')):
 
 
 def downloadProfile():
+    # getting our list of images
     imagename = os.listdir(os.getenv("LOCAL_IMAGES"))
     for linkedin_url in LinkedinHref():
         # get the profile URL
         driver.get(linkedin_url)
+        # Get picture URL
         picture_url = driver.find_elements(
             By.CLASS_NAME, 'pv-top-card__non-self-photo-wrapper.ml0')
         for url in picture_url:
@@ -83,15 +94,19 @@ def downloadProfile():
             a = url.find_element(By.TAG_NAME, 'img').get_attribute('src')
             # get the source of the name profile
             text = driver.find_element(By.CLASS_NAME,
-                "text-heading-xlarge.inline.t-24.v-align-middle.break-words").text
+                                       "text-heading-xlarge.inline.t-24.v-align-middle.break-words").text
             # # download the image
             try:
-                 if text not in imagename:
+                # Compare the name of local images and the futur downloading images to not have a double
+                if text+'png' not in imagename:
                     urllib.request.urlretrieve(a, "images/"+text+".png")
                     # add a 5 second pause loading each URL
-                    time.sleep(2)
-            except AssertionError:
-                print("No picture to download")
+                    time.sleep(5)
+            except URLError as e:
+                print(e)
+            finally:
+                print("Download successfull")
+                driver.close()
 
 
 if __name__ == "__main__":
