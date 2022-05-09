@@ -1,6 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .env
-test.ipynb
+test.*
 .ipynb_checkpoints
 geckodriver.log
