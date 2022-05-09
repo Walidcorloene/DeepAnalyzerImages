@@ -122,7 +122,7 @@ def downloadProfile(driver):
     imagename = os.listdir(os.getenv("LOCAL_IMAGES"))
     for linkedin_url in linkToDownload():
         # Get the profile URL
-        driver.get(linkedin_url)
+        driver.get('https://www.linkedin.com/in/nora-agbakhamen')
         # Get picture URL
         picture_url = driver.find_elements(
             By.CLASS_NAME, 'pv-top-card__non-self-photo-wrapper.ml0')
@@ -144,18 +144,7 @@ def downloadProfile(driver):
                         storeLinks(linkedin_url)
                         print("Download successfull")
                         # add a 5 second pause loading each URL
-                        time.sleep(5)
-                    # Download the image when the person have the same name but different link of linkedin
-                    else:
-                         # Download the image
-                        i+=1
-                        urllib.request.urlretrieve(url_img, "images/"+text+str(i)+".png")
-                        # Add the link to the local txt
-                        storeLinks(linkedin_url)
-                        print("Download successfull")
-                        # add a 5 second pause loading each URL
-                        time.sleep(5)
-                        
+                        time.sleep(5)                        
                 except urllib.error.HTTPError as e:
                     print(e.code)
                     print(e.read())
