@@ -135,7 +135,6 @@ def downloadProfile(driver):
                     By.CLASS_NAME, "text-heading-xlarge.inline.t-24.v-align-middle.break-words").text
                 try:
                     # Compare the name of local images and the futur downloading images to not have a double
-                    storeLinks(linkedin_url)
                     if text+'.png' not in imagename:
                         # Download the image
                         urllib.request.urlretrieve(
