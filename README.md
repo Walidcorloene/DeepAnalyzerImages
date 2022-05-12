@@ -64,7 +64,7 @@ After download it to your repository of project add the path of webdriver.exe in
 5. Launch the scraper to get profiles images from linkedin :
 
 ```
-python scrap.py
+python scraper.py
 ```
 
 ## Project structure
@@ -76,7 +76,9 @@ python scrap.py
 
 -- Scraper/webdriver : the webdriver.exe repository
     
--- Scraper/.env.dist : contains variable WEBDRIVER_PATH, LOCAL_IMAGES, LINKEDIN_USERNAME, LINKEDIN_PASSWORD
+-- Scraper/.env.dist : contains variable WEBDRIVER_PATH, LOCAL_IMAGES, LINKEDIN_USERNAME, LINKEDIN_PASSWORD 
+
+   don't forget to remove .dist to the .env and adding for each field the values of the path and linkedin profile
 
 -- Scraper/requirements.txt : this files will list the dependencies of the scraper
 
