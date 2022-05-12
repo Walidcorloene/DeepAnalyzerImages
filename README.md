@@ -46,7 +46,7 @@
 
 1. Create a new conda env named deepsimageanalyser (if you haven't already) for the project in the Conda application or in the terminal:
 ```
-conda create --name deepsimageanalyser python=3.7 
+conda create --name deepsimageanalyser python=3.9.7 
 ```
 
 2. Activate the conda env (you can check your availables env with: conda env list):
