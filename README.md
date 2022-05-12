@@ -17,10 +17,15 @@
 
 # the members of groups :
 -Walid KHIRDINE
+
 -Oussama BOUACEM
+
 -Racim CHEBLI 
+
 -Redouane KARA
+
 -Maha Yasmine AOUISSAT
+
 -Dora DEBBICHE
 
 # DeepAnalyzerImages
@@ -72,7 +77,7 @@ python scraper.py
     
 -- Scraper/images/ : this folder contains all profiles images
     
--- Scraper/scraper.py : contains function to do the scraping
+-- Scraper/scraper.py : contains functions to do the scraping
 
 -- Scraper/webdriver : the webdriver.exe repository
     
