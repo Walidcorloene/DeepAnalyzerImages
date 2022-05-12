@@ -15,7 +15,7 @@
 
 # DeepAnalyzer
 
-# Les membres du groupes :
+# the members of groups :
 -Walid KHIRDINE
 -Oussama BOUACEM
 -Racim CHEBLI 
@@ -33,7 +33,7 @@
 
 * Define the best strategy during the meeting with the customer to get them on board and create a tool for this purpose, operational and of the AI ​​vision type (cf. Microservices and DevOps systems)
 
-## Dependencies
+## Dependencies for the Scraper
 
 * Anaconda or Miniconda: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
 
@@ -70,16 +70,18 @@ python scrap.py
 ## Project structure
 
     
--- images : this folder will contains all images
+-- Scraper/images/ : this folder contains all profiles images
     
------ scraper.ipynb : contains class definitions for each database model
+-- Scraper/scraper.py : contains function to do the scraping
 
--- webdriver : the webdriver.exe repository
+-- Scraper/webdriver : the webdriver.exe repository
     
-------- .env : contains variable PATH_WEBDRIVER, LINKEDIN_USERNAME, LINKEDIN_PASSWORD
+-- Scraper/.env.dist : contains variable WEBDRIVER_PATH, LOCAL_IMAGES, LINKEDIN_USERNAME, LINKEDIN_PASSWORD
 
--- requirements.txt : this files will list the dependencies of the project
-    
+-- Scraper/requirements.txt : this files will list the dependencies of the scraper
+
+-- Scraper/storelink.txt : this files contains the link of each profile visited
+  
 ----- 
 
 -- 
