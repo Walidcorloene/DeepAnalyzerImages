@@ -71,6 +71,10 @@ After download it to your repository of project add the path of webdriver.exe in
 ```
 python scraper.py
 ```
+<div align="center">
+  <img src="https://lalalab.zendesk.com/hc/article_attachments/4411304152338/LoathsomeWaryDugong-max-1mb.gif" width="300"/>
+</div>
+
 
 ## Project structure
 
