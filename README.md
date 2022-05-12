@@ -84,7 +84,7 @@ python scrap.py
   
 ----- 
 
--- 
+-- Clip model/Roboflow_CLIP_Zero_Shot_Classification.ipynb : this file contain the model clip to train on the images
 
 -- 
 
