@@ -10,7 +10,7 @@
 
 
 ### 🧑‍💻: About Us :
-- :telescope: We are Studying as a Data & AI and contributing for building a analyzer images of profile linkedin.
+- :telescope: We are Studying Data & AI and contributing for building a image analyzer of profile linkedin.
 
 
 # DeepAnalyzer
