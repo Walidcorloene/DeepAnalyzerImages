@@ -10,17 +10,22 @@
 
 
 ### 🧑‍💻: About Us :
-- :telescope: We are Studying as a Data & AI and contributing for building a analyzer images of profile linkedin.
+- :telescope: We are Studying Data & AI and contributing for building a image analyzer of LinkedIn profile pictures.
 
 
 # DeepAnalyzer
 
-# Les membres du groupes :
+# the members of groups :
 -Walid KHIRDINE
+
 -Oussama BOUACEM
+
 -Racim CHEBLI 
+
 -Redouane KARA
+
 -Maha Yasmine AOUISSAT
+
 -Dora DEBBICHE
 
 # DeepAnalyzerImages
@@ -33,7 +38,7 @@
 
 * Define the best strategy during the meeting with the customer to get them on board and create a tool for this purpose, operational and of the AI ​​vision type (cf. Microservices and DevOps systems)
 
-## Dependencies
+## Dependencies for the Scraper
 
 * Anaconda or Miniconda: https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html
 
@@ -41,7 +46,7 @@
 
 1. Create a new conda env named deepsimageanalyser (if you haven't already) for the project in the Conda application or in the terminal:
 ```
-conda create --name deepsimageanalyser python=3.7 
+conda create --name deepsimageanalyser python=3.9.7 
 ```
 
 2. Activate the conda env (you can check your availables env with: conda env list):
@@ -64,25 +69,33 @@ After download it to your repository of project add the path of webdriver.exe in
 5. Launch the scraper to get profiles images from linkedin :
 
 ```
-python scrap.py
+python scraper.py
 ```
+<div align="center">
+  <img src="https://lalalab.zendesk.com/hc/article_attachments/4411304152338/LoathsomeWaryDugong-max-1mb.gif" width="300"/>
+</div>
+
 
 ## Project structure
 
     
--- images : this folder will contains all images
+-- Scraper/images/ : this folder contains all profiles images
     
------ scraper.ipynb : contains class definitions for each database model
+-- Scraper/scraper.py : contains functions to do the scraping
 
--- webdriver : the webdriver.exe repository
+-- Scraper/webdriver : the webdriver.exe repository
     
-------- .env : contains variable PATH_WEBDRIVER, LINKEDIN_USERNAME, LINKEDIN_PASSWORD
+-- Scraper/.env.dist : contains variable WEBDRIVER_PATH, LOCAL_IMAGES, LINKEDIN_USERNAME, LINKEDIN_PASSWORD 
 
--- requirements.txt : this files will list the dependencies of the project
-    
+   don't forget to remove .dist to the .env and adding for each field the values of the path and linkedin profile
+
+-- Scraper/requirements.txt : this files will list the dependencies of the scraper
+
+-- Scraper/storelink.txt : this files contains the link of each profile visited
+  
 ----- 
 
--- 
+-- Clip model/Roboflow_CLIP_Zero_Shot_Classification.ipynb : this file contain the model clip to train on the images
 
 -- 
 
