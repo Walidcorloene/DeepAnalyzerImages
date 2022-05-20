@@ -133,7 +133,6 @@ def downloadImages(image_url, image_name):
                 # Add the link to the local txt
                 StoreImgName(image_url)
                 print("Download successfull, the link downloaded", image_url, '\n')
-                # add a 5 second pause loading each URL
     except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
