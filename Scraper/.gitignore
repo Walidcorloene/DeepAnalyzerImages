@@ -1,6 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .env
+chromedriver.exe
 test.*
 .ipynb_checkpoints
 geckodriver.log
+scrapnetwork.ipynb
