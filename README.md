@@ -26,7 +26,7 @@
 
 -Maha Yasmine AOUISSAT
 
--Dora DEBBICHE
+-Dorra DEBBICHE
 
 # DeepAnalyzerImages
 
