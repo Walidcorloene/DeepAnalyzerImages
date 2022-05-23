@@ -66,11 +66,18 @@ https://chromedriver.chromium.org/downloads
 
 After download it to your repository of project add the path of webdriver.exe into scraper.py and linkedin profile to the .env file
 
-5. Launch the scraper to get profiles images from linkedin :
+5. Launch the scraper to get profiles images from linkedin My Network :
 
 ```
-python scraper.py
+python scrapernetwork.py
 ```
+
+There is also scraperprofile.py which enter to each profile and scrape a picture to have better quality of images but there is restriction to enter for a many number of profiles, 30 profiles per day
+
+```
+python scraperprofile.py
+```
+
 <div align="center">
   <img src="https://lalalab.zendesk.com/hc/article_attachments/4411304152338/LoathsomeWaryDugong-max-1mb.gif" width="300"/>
 </div>
@@ -81,7 +88,9 @@ python scraper.py
     
 -- Scraper/images/ : this folder contains all profiles images
     
--- Scraper/scraper.py : contains functions to do the scraping
+-- Scraper/scrapernetwork.py : contains functions to do the scraping of images from the page My network
+
+-- Scraper/scraperprofile.py : contains functions to do the scraping of images from the page of each profile
 
 -- Scraper/webdriver : the webdriver.exe repository
     
@@ -92,6 +101,8 @@ python scraper.py
 -- Scraper/requirements.txt : this files will list the dependencies of the scraper
 
 -- Scraper/storelink.txt : this files contains the link of each profile visited
+
+-- Scraper/imagename.txt : this files contains the link of each picture profile scraped
   
 ----- 
 
