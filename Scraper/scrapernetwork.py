@@ -6,12 +6,13 @@ from selenium import webdriver
 from dotenv import load_dotenv
 from parsel import Selector
 import urllib.request
+import uuid
 import time
 import re
 import os
 
 
-# This Script scrape profile images from the page My Network  
+# This Script scrape profile images from the page My Network
 
 
 # Load .env file
@@ -59,7 +60,7 @@ def networkSource(link):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, "//button/li-icon[@type='chevron-down-icon']"))).click()
         # Scrolling with chrono of 3 minutes ( you can changes as you like)
-        time_end = time.time() + 1
+        time_end = time.time() + 60 * 3
         while time.time() < time_end:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
@@ -89,8 +90,8 @@ def linkToDownload():
     links = linkedinImgSrc()
     linktoload = [row for row in links if row not in linksStored()]
     print("Les profile a télécharger <<<<<<<<<.......................>>>>>>>", linktoload)
-    print("Number of images to download >>>>>>>>>>>>>",len(linktoload))
-    return set(linktoload)
+    print("Number of images to download >>>>>>>>>>>>>", len(linktoload))
+    return linktoload
 
 
 # Get the links from storelink
@@ -116,19 +117,36 @@ def StoreImgName(links):
 # Get the identifier of the images
 
 def GetImageName(src):
-    name = re.findall("(a&.=..[A-z0-9_-]*)", src)        
+    name = re.findall("(a&.=..[A-z0-9_-]*)", src)
     return name
+
+
+# Get the name of local images
+
+def LocalImageName():
+    local_image_name = os.listdir(os.getenv("LOCAL_IMAGES"))
+    return local_image_name
 
 
 def downloadImages(image_url, image_name):
     try:
+        
+        # Check if the list of image is not empty
         if image_name:
-            # Download the image
-            urllib.request.urlretrieve(
-                image_url, "images/"+str(image_name[0])+".png")
-            # Add the link to the local txt
-            StoreImgName(image_url)
-            print("Download successfull, the link downloaded", image_url, '\n')
+            if image_name[0] not in LocalImageName():
+                # Download the image
+                urllib.request.urlretrieve(
+                    image_url, "images/"+image_name[0]+".png")
+                # Add the link to the local txt
+                StoreImgName(image_url)
+                print("Download successfull, the link downloaded", image_url, '\n')
+            else:
+                # Download the image
+                urllib.request.urlretrieve(
+                    image_url, "images/"+str(uuid.uuid4())+".png")
+                # Add the link to the local txt
+                StoreImgName(image_url)
+                print("Download successfull, the link downloaded", image_url, '\n')
     except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
@@ -140,8 +158,8 @@ def downloadImages(image_url, image_name):
 def downloadImageAndLink(driver):
     try:
         for image_url in linkToDownload():
-            # get the url of each images and find the idientifier
-            image_name= GetImageName(image_url)
+            # Get the url of each images and find the idientifier to set it for image name
+            image_name = GetImageName(image_url)
             downloadImages(image_url, image_name)
     except NoSuchElementException:
         print("\tError finding MessagingList")
