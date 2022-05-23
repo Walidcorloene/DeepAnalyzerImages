@@ -59,7 +59,7 @@ def networkSource(link):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, "//button/li-icon[@type='chevron-down-icon']"))).click()
         # Scrolling with chrono of 3 minutes ( you can changes as you like)
-        time_end = time.time() + 60 * 3
+        time_end = time.time() + 1
         while time.time() < time_end:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
@@ -89,8 +89,8 @@ def linkToDownload():
     links = linkedinImgSrc()
     linktoload = [row for row in links if row not in linksStored()]
     print("Les profile a télécharger <<<<<<<<<.......................>>>>>>>", linktoload)
-    print("Local link <------>>>>>>", linksStored())
-    return linktoload
+    print("Number of images to download >>>>>>>>>>>>>",len(linktoload))
+    return set(linktoload)
 
 
 # Get the links from storelink
@@ -116,23 +116,19 @@ def StoreImgName(links):
 # Get the identifier of the images
 
 def GetImageName(src):
-    name = re.findall("(a&.=..[A-z0-9_-]*)", src)
+    name = re.findall("(a&.=..[A-z0-9_-]*)", src)        
     return name
 
 
 def downloadImages(image_url, image_name):
     try:
-        # Getting our list of images
-        local_image_names = linksStored()
-        # Compare the name of local images and the futur downloading images to not have a double
-        for name in image_name:
-            if name+'.png' not in local_image_names:
-                # Download the image
-                urllib.request.urlretrieve(
-                    image_url, "images/"+re.sub("\/", "_", name)+".png")
-                # Add the link to the local txt
-                StoreImgName(image_url)
-                print("Download successfull, the link downloaded", image_url, '\n')
+        if image_name:
+            # Download the image
+            urllib.request.urlretrieve(
+                image_url, "images/"+str(image_name[0])+".png")
+            # Add the link to the local txt
+            StoreImgName(image_url)
+            print("Download successfull, the link downloaded", image_url, '\n')
     except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
@@ -145,7 +141,7 @@ def downloadImageAndLink(driver):
     try:
         for image_url in linkToDownload():
             # get the url of each images and find the idientifier
-            image_name = GetImageName(image_url)
+            image_name= GetImageName(image_url)
             downloadImages(image_url, image_name)
     except NoSuchElementException:
         print("\tError finding MessagingList")
