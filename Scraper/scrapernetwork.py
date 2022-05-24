@@ -60,7 +60,7 @@ def networkSource(link):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, "//button/li-icon[@type='chevron-down-icon']"))).click()
         # Scrolling with chrono of 3 minutes ( you can changes as you like)
-        time_end = time.time() + 60 * 3
+        time_end = time.time() + 3
         while time.time() < time_end:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
@@ -72,16 +72,23 @@ def networkSource(link):
     return sel
 
 
+# Get true src of a person profile
+
+def GetTrueSrc(src):
+    profile = ['profile-displayphoto-shrink_200_200',
+               'profile-framedphoto-shrink_200_200']
+    true_src = [true for true in src if any(prof in true for prof in profile)]
+    return true_src
+
+
 # Get src of each linkedin image profile
 
 def linkedinImgSrc():
     sel = networkSource('https://www.linkedin.com/mynetwork/')
     # to get all the link in the script a
-    image_profile = set([a.attrib['src']
-                        for a in sel.css('img')
-                         if ("profile-displayphoto-shrink" or
-                        "profile-framedphoto-shrink" in a.attrib['src'])])
-    return image_profile
+    image_profile = set([a.attrib['src'] for a in sel.css('img')])
+
+    return GetTrueSrc(image_profile)
 
 
 # Get the urls from local and check if they already exists in href got
@@ -117,7 +124,7 @@ def StoreImgName(links):
 # Get the identifier of the images
 
 def GetImageName(src):
-    name = re.findall("(a&.=..[A-z0-9_-]*)", src)
+    name = re.findall("image\/([a-zA-Z0-9_-]*)", src)
     return name
 
 
@@ -127,26 +134,29 @@ def LocalImageName():
     local_image_name = os.listdir(os.getenv("LOCAL_IMAGES"))
     return local_image_name
 
+# This return an image with the name of image
+def DownloaderUrl(img_url, img_name):
+    return urllib.request.urlretrieve(img_url, "images/"+re.sub("/", "_", img_name)+".png")
+
 
 def downloadImages(image_url, image_name):
     try:
-        
+
         # Check if the list of image is not empty
         if image_name:
             if image_name[0] not in LocalImageName():
                 # Download the image
-                urllib.request.urlretrieve(
-                    image_url, "images/"+image_name[0]+".png")
+                DownloaderUrl(image_url, image_name[0])
                 # Add the link to the local txt
                 StoreImgName(image_url)
                 print("Download successfull, the link downloaded", image_url, '\n')
-            else:
+            elif image_name[0] in LocalImageName():
                 # Download the image
                 urllib.request.urlretrieve(
                     image_url, "images/"+str(uuid.uuid4())+".png")
                 # Add the link to the local txt
                 StoreImgName(image_url)
-                print("Download successfull, the link downloaded", image_url, '\n')
+                print("Download successfull with UUID, the link downloaded", image_url, '\n')
     except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
