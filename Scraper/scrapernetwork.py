@@ -60,7 +60,7 @@ def networkSource(link):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, "//button/li-icon[@type='chevron-down-icon']"))).click()
         # Scrolling with chrono of 3 minutes ( you can changes as you like)
-        time_end = time.time() + 3
+        time_end = time.time() + 60 * 3.3
         while time.time() < time_end:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
@@ -90,6 +90,12 @@ def linkedinImgSrc():
 
     return GetTrueSrc(image_profile)
 
+def GetName():
+    sel=linkedinImgSrc()
+    f=[a for a in sel.css('a.ember-view.discover-entity-type-card__link  span.discover-person-card__name.t-16.t-black.t-bold::text')
+       .extract()]
+    fff=[re.sub("\n","",fa).strip() for fa in f] 
+    return fff
 
 # Get the urls from local and check if they already exists in href got
 
