@@ -1,3 +1,4 @@
+from unicodedata import name
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -60,7 +61,7 @@ def networkSource(link):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, "//button/li-icon[@type='chevron-down-icon']"))).click()
         # Scrolling with chrono of 3 minutes ( you can changes as you like)
-        time_end = time.time() + 60 * 3.3
+        time_end = time.time() + 1
         while time.time() < time_end:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
@@ -74,37 +75,39 @@ def networkSource(link):
 
 # Get true src of a person profile
 
-def GetTrueSrc(src):
-    profile = ['profile-displayphoto-shrink_200_200',
-               'profile-framedphoto-shrink_200_200']
-    true_src = [true for true in src if any(prof in true for prof in profile)]
-    return true_src
+# def GetTrueSrc(src):
+#     profile = ['profile-displayphoto-shrink_200_200',
+#                'profile-framedphoto-shrink_200_200']
+#     true_src = [true for true in src if any(prof in true for prof in profile)]
+#     return true_src
 
 
 # Get src of each linkedin image profile
 
 def linkedinImgSrc():
     sel = networkSource('https://www.linkedin.com/mynetwork/')
+    image_profile=[]
+    alt=[]
     # to get all the link in the script a
-    image_profile = set([a.attrib['src'] for a in sel.css('img')])
+    for a in sel.css('a.ember-view.discover-entity-type-card__link img.lazy-image.ember-view.discover-entity-type-card__image-circle.Elevation-0dp.EntityPhoto-circle-7'):
+       image_profile.append(a.attrib['src'])
+       alt.append(re.sub(" ","_",a.attrib['alt']))
+    return image_profile, alt
 
-    return GetTrueSrc(image_profile)
 
-def GetName():
-    sel=linkedinImgSrc()
-    f=[a for a in sel.css('a.ember-view.discover-entity-type-card__link  span.discover-person-card__name.t-16.t-black.t-bold::text')
-       .extract()]
-    fff=[re.sub("\n","",fa).strip() for fa in f] 
-    return fff
 
 # Get the urls from local and check if they already exists in href got
 
+
 def linkToDownload():
-    links = linkedinImgSrc()
+    links,name = linkedinImgSrc()
     linktoload = [row for row in links if row not in linksStored()]
+    image_alt= [ alt for alt in name if alt not in LocalImageName()]
     print("Les profile a télécharger <<<<<<<<<.......................>>>>>>>", linktoload)
     print("Number of images to download >>>>>>>>>>>>>", len(linktoload))
-    return linktoload
+    print("Les profile a télécharger <<<<<<<<<.......................>>>>>>>", image_alt)
+    print("Number of images to download >>>>>>>>>>>>>", len(image_alt))
+    return dict(zip(linktoload, image_alt))
 
 
 # Get the links from storelink
@@ -129,9 +132,9 @@ def StoreImgName(links):
 
 # Get the identifier of the images
 
-def GetImageName(src):
-    name = re.findall("image\/([a-zA-Z0-9_-]*)", src)
-    return name
+#def GetImageName(src):
+ #   name = re.findall("image\/([a-zA-Z0-9_-]*)", src)
+  #  return name
 
 
 # Get the name of local images
@@ -141,28 +144,20 @@ def LocalImageName():
     return local_image_name
 
 # This return an image with the name of image
+
+
 def DownloaderUrl(img_url, img_name):
-    return urllib.request.urlretrieve(img_url, "images/"+re.sub("/", "_", img_name)+".png")
+    return urllib.request.urlretrieve(img_url, "images/"+img_name+".png")
 
 
-def downloadImages(image_url, image_name):
+def downloadImages(image_url, name_alt):
     try:
-
         # Check if the list of image is not empty
-        if image_name:
-            if image_name[0] not in LocalImageName():
-                # Download the image
-                DownloaderUrl(image_url, image_name[0])
-                # Add the link to the local txt
-                StoreImgName(image_url)
-                print("Download successfull, the link downloaded", image_url, '\n')
-            elif image_name[0] in LocalImageName():
-                # Download the image
-                urllib.request.urlretrieve(
-                    image_url, "images/"+str(uuid.uuid4())+".png")
-                # Add the link to the local txt
-                StoreImgName(image_url)
-                print("Download successfull with UUID, the link downloaded", image_url, '\n')
+        # Download the image
+        DownloaderUrl(image_url, name_alt)
+        # Add the link to the local txt
+        StoreImgName(image_url)
+        print("Download successfull, the link downloaded", image_url,"and image name is ", name_alt, '\n')
     except urllib.error.HTTPError as e:
         print(e.code)
         print(e.read())
@@ -173,10 +168,12 @@ def downloadImages(image_url, image_name):
 
 def downloadImageAndLink(driver):
     try:
-        for image_url in linkToDownload():
+        url_alt=linkToDownload()
+       
+        for image_url,name_alt  in url_alt.items():
             # Get the url of each images and find the idientifier to set it for image name
-            image_name = GetImageName(image_url)
-            downloadImages(image_url, image_name)
+                 print(image_url,name_alt)
+                 downloadImages(image_url, name_alt)
     except NoSuchElementException:
         print("\tError finding MessagingList")
         pass
