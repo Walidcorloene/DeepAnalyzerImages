@@ -92,7 +92,7 @@ def networkSource(link):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, "//button/li-icon[@type='chevron-down-icon']"))).click()
         # Scrolling with chrono of 3 minutes ( you can changes as you like)
-        time_end = time.time() + 60 * 2.5
+        time_end = time.time() + 60 * 3
         while time.time() < time_end:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
