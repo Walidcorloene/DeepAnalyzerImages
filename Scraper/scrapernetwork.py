@@ -92,7 +92,7 @@ def networkSource(link):
         WebDriverWait(driver, 20).until(EC.element_to_be_clickable((
             By.XPATH, "//button/li-icon[@type='chevron-down-icon']"))).click()
         # Scrolling with chrono of 3 minutes ( you can changes as you like)
-        time_end = time.time() + 1
+        time_end = time.time() + 60 * 2
         while time.time() < time_end:
             driver.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
@@ -119,7 +119,7 @@ def linkedinImgSrc():
     alt = []
     # to get all the link in the script a
     for a in sel.css('a.ember-view.discover-entity-type-card__link img.lazy-image.ember-view.discover-entity-type-card__image-circle.Elevation-0dp.EntityPhoto-circle-7'):
-        if (a.attrib['src'] not in linksStored() and re.sub(" ", "_", a.attrib['alt']) not in LocalImageName()):
+        if (a.attrib['src'] not in linksStored() and re.sub(r'\([^( )]*\)', "_", a.attrib['alt']) not in LocalImageName()):
             image_profile.append(a.attrib['src'])
             alt.append(re.sub(" ", "_", a.attrib['alt']))
     return dict(zip(image_profile, alt))
@@ -149,7 +149,7 @@ def StoreImgName(links):
 
 
 def DownloaderUrl(img_url, img_name):
-    return urllib.request.urlretrieve(img_url, "images/"+img_name+".png")
+    return urllib.request.urlretrieve(img_url, "images/"+re.sub(r'\([^( )]*\)', "_", img_name)+".png")
 
 
 def downloadImages(image_url, name_alt):
