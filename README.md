@@ -12,10 +12,13 @@
 ### 🧑‍💻: About Us :
 - :telescope: We are Studying Data & AI and contributing for building a image analyzer of LinkedIn profile pictures.
 
+- Business Coach : Jean-Charles TASSAN
+- Technical Coach : Théo GIGANT
+
 
 # DeepAnalyzer
 
-# the members of groups :
+# Group members :
 -Walid KHIRDINE
 
 -Oussama BOUACEM
