@@ -12,8 +12,8 @@
 ### 🧑‍💻: About Us :
 - :telescope: We are Studying Data & AI and contributing for building a image analyzer of LinkedIn profile pictures.
 
-- Business Coach : Jean-Charles TASSAN
-- Technical Coach : Théo GIGANT
+- At the origin of the idea and our Business Coach : Jean-Charles TASSAN
+- Our Technical Coach : Théo GIGANT
 
 
 # DeepAnalyzer
